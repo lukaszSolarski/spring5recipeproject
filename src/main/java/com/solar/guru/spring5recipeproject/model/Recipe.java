@@ -1,6 +1,7 @@
 package com.solar.guru.spring5recipeproject.model;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public class Recipe {
@@ -25,6 +26,15 @@ public class Recipe {
 
     @OneToOne (cascade = CascadeType.ALL)
     private Note note;
+
+    /*
+    CascadeType.ALL means that when Recipe will be deleted, its Ingredients also will be deleted
+    mappedBy - "recipe" means that on the child (Ingredient) this relationship will be stored in "recipe" property
+    This relationship is bidirectional (in Ingredient there's @ManyToOne annotation).
+    In db, RECIPE_ID column will appear in INGREDIENT table. In RECIPE table there will be no column for that relationship.
+     */
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
+    private Set<Ingredient> ingredients;
 
     public Long getId() {
         return id;
