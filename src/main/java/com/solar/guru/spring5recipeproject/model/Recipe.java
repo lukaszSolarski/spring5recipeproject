@@ -33,6 +33,19 @@ public class Recipe {
     @Enumerated(value = EnumType.STRING)
     private Difficulty difficulty;
 
+    /*
+    @JoinTable is used to specify names of joining table and its columns
+    @mappedBy on the non-owning side will cause that only one joining table will be created. Without it, there will be
+    two different tables containing the same relationship.
+     */
+    @ManyToMany
+    @JoinTable(
+            name = "recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "category_id")
+    )
+    private Set<Category> categories;
+
     @OneToOne (cascade = CascadeType.ALL)
     private Note note;
 
