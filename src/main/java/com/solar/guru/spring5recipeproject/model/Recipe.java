@@ -24,6 +24,15 @@ public class Recipe {
     @Lob
     private Byte[] image;
 
+    /*
+    EnumType.STRING overrides default behaviour ORDINAL. ORDINAL causes that integers are stored in db (1,2,3). STRING
+    will force to store Strings in db (EASY, MODERATE, HARD). It's important because if you have ORDINAL type and you
+    will add new Enum value in different place than at the end, it will cause that the order will change and 3 will become
+    4 and 2 will become 3. It can be confusing.
+     */
+    @Enumerated(value = EnumType.STRING)
+    private Difficulty difficulty;
+
     @OneToOne (cascade = CascadeType.ALL)
     private Note note;
 
