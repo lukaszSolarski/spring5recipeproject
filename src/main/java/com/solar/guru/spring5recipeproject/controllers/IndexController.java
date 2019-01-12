@@ -4,26 +4,30 @@ import com.solar.guru.spring5recipeproject.model.Category;
 import com.solar.guru.spring5recipeproject.model.UnitOfMeasure;
 import com.solar.guru.spring5recipeproject.repositories.CategoryRepository;
 import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
+import com.solar.guru.spring5recipeproject.services.RecipeService;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.Optional;
 
 @Controller
 public class IndexController {
-    private CategoryRepository categoryRepository;
-    private UnitOfMeasureRepository unitOfMeasureRepository;
+    private final CategoryRepository categoryRepository;
+    private final UnitOfMeasureRepository unitOfMeasureRepository;
+    private final RecipeService recipeService;
 
-    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
+    public IndexController(CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository, RecipeService recipeService) {
         this.categoryRepository = categoryRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
+        this.recipeService = recipeService;
     }
 
     @RequestMapping({"","/","/index","/index.html"})
-    public String getIndex() {
+    public String getIndex(Model model) {
 
         Optional<Category> categoryOptional = categoryRepository.findByName("Polish");
-        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("Teaspoon");
+        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("teaspoon");
         Optional<Category> notExistingCategoryOptional = categoryRepository.findByName("Polish2");
         System.out.println("Category: " + categoryOptional.get().getId() + ":" + categoryOptional.get().getName());
         System.out.println("Unit: " + unitOfMeasureOptional.get().getId() + ":" + unitOfMeasureOptional.get().getDescription());
@@ -31,7 +35,7 @@ public class IndexController {
         HTTP 500 error
          */
         //notExistingCategoryOptional.get();
-
+        model.addAttribute("recipes", recipeService.getRecipes());
         return "index";
     }
 }
