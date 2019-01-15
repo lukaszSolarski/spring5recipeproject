@@ -1,9 +1,17 @@
 package com.solar.guru.spring5recipeproject.model;
 
+import lombok.*;
+
 import javax.persistence.*;
 import java.util.Set;
 
+/*
+Exclude this properties from EqualsAndHashCode, which are bidirectional. We have to exclude recipes from: Category,
+Ingredient and Note models.
+ */
 @Entity
+@Data
+@EqualsAndHashCode(exclude = "recipes")
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,28 +20,4 @@ public class Category {
 
     @ManyToMany(mappedBy = "categories")
     private Set<Recipe> recipes;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<Recipe> getRecipes() {
-        return recipes;
-    }
-
-    public void setRecipes(Set<Recipe> recipes) {
-        this.recipes = recipes;
-    }
 }

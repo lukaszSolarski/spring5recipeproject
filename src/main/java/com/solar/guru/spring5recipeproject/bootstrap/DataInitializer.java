@@ -4,8 +4,10 @@ import com.solar.guru.spring5recipeproject.model.*;
 import com.solar.guru.spring5recipeproject.repositories.CategoryRepository;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
 import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -16,6 +18,7 @@ import java.util.Optional;
 CommandLineRunner and it's 'run' method will fire right after Spring Framework is ready.
  */
 @Component
+@Slf4j
 public class DataInitializer implements CommandLineRunner {
     private CategoryRepository categoryRepository;
     private RecipeRepository recipeRepository;
@@ -28,6 +31,12 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     @Override
+    /*
+    Default behavior of Spring Data repositories is to run each method call in a transaction. By marking the service
+    method as transactional, we pull the transaction boundaries to the service method, thus correcting the lazy
+    instantiate error.
+     */
+    @Transactional
     public void run(String... args) throws Exception {
         recipeRepository.saveAll(initData());
     }
@@ -78,6 +87,7 @@ public class DataInitializer implements CommandLineRunner {
         cake.setUrl("https://nonexistingul.solar.com");
         recipes.add(cake);
 
+        log.info("Data initialized!");
         return recipes;
     }
 
