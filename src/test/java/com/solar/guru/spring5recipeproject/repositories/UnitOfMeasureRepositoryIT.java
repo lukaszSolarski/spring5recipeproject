@@ -27,10 +27,17 @@ public class UnitOfMeasureRepositoryIT {
     }
 
     @Test
-    //use the above to make sure the context will be reloaded before next test method in this test class
+    /*use the above to make sure the context will be reloaded before next test method in this test class
+    It will take more time.
+     */
     @DirtiesContext
     public void findByDescription() {
         Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("teaspoon");
         assertEquals("teaspoon", unitOfMeasureOptional.get().getDescription());
+    }
+    @Test
+    public void findByDescriptionCup() {
+        Optional<UnitOfMeasure> unitOfMeasureOptional = unitOfMeasureRepository.findByDescription("cup");
+        assertEquals("cup", unitOfMeasureOptional.get().getDescription());
     }
 }

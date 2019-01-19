@@ -9,7 +9,7 @@ INSERT INTO category (name) VALUES ('Polish');
 INSERT INTO category (name) VALUES ('Fast food');
 INSERT INTO unit_of_measure (description) VALUES ('teaspoon');
 INSERT INTO unit_of_measure (description) VALUES ('tablespoon');
-INSERT INTO unit_of_measure (description) VALUES ('tup');
+INSERT INTO unit_of_measure (description) VALUES ('cup');
 INSERT INTO unit_of_measure (description) VALUES ('pinch');
 INSERT INTO unit_of_measure (description) VALUES ('item');
 INSERT INTO unit_of_measure (description) VALUES ('dash');
