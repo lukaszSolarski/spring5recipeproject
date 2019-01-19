@@ -70,10 +70,10 @@
                     <includes>
                         <include>**/*IT.java</include>
                     </includes>
-                    <!-- I'm not sure if the above element is necessary
+                    <!-- I'm not sure if the above element is necessary -->
                     <additionalClasspathElements>
                         <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
-                    </additionalClasspathElements> -->
+                    </additionalClasspathElements>
                     <parallel>none</parallel>
                 </configuration>
                 <executions>
