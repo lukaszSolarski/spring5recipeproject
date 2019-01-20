@@ -31,9 +31,10 @@
                                 <h5>Categories</h5>
                             </div>
                             <div class="col-md-10">
-                                <ul>
-                                    <li>cat1</li>
-                                    <li>cat2</li>
+                                <ul th:each="category : ${recipe.categories}">
+                                    <li th:remove="all">category 1</li>
+                                    <li th:remove="all">category 2</li>
+                                    <li th:text="${category.name}">category 3</li>
                                 </ul>
                             </div>
                         </div>
@@ -42,13 +43,13 @@
                                 <h5>Perp. time</h5>
                             </div>
                             <div class="col-md-3">
-                                <p>20min</p>
+                                <p th:text="${recipe.prepTime + ' min'}">20 min</p>
                             </div>
                             <div class="col-md-3">
                                 <h5>Difficulty</h5>
                             </div>
                             <div class="col-md-3">
-                                <p>Easy</p>
+                                <p th:text="${recipe.difficulty}">Easy</p>
                             </div>
                         </div>
                         <div class="row">
@@ -56,21 +57,21 @@
                                 <h5>Cook time</h5>
                             </div>
                             <div class="col-md-3">
-                                <p>30min</p>
+                                <p th:text="${recipe.cookTime + ' min'}">30 min</p>
                             </div>
                             <div class="col-md-3">
                                 <h5>Servings</h5>
                             </div>
                             <div class="col-md-3">
-                                <p>3</p>
+                                <p th:text="${recipe.servings}">3</p>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-3">
                                 <h5>URL</h5>
                             </div>
-                            <div class="col-md-3">
-                                <p>https://someurl</p>
+                            <div class="col-md-9">
+                                <p><a href="#" th:href="${recipe.url}">View original</a></p>
                             </div>
                         </div>
                     </div>
@@ -82,9 +83,10 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <ul>
-                                    <li>ingredient 1</li>
-                                    <li>ingredient 2</li>
+                                <ul th:each="ingredient : ${recipe.ingredients}">
+                                    <li th:remove="all">ingredient 1</li>
+                                    <li th:remove="all">ingredient 2</li>
+                                    <li th:text="${ingredient.getDescription()}">ingredient 3</li>
                                 </ul>
                             </div>
                         </div>
@@ -97,7 +99,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p th:text="${recipe.directions}">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             </div>
                         </div>
                     </div>
@@ -109,7 +111,7 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <p>"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                                <p th:text="${recipe.note.recipeNote}">"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
                             </div>
                         </div>
                     </div>

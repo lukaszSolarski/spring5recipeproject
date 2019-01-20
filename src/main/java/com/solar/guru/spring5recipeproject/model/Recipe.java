@@ -20,7 +20,6 @@ public class Recipe {
     private String source;
     private String url;
     private String directions;
-    //private Difficulty difficulty;
 
     /*
     @Log annotation specifies that this value can be very large.
