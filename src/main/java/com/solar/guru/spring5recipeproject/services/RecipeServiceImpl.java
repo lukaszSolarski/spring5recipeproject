@@ -26,4 +26,9 @@ public class RecipeServiceImpl implements RecipeService {
         iterable.iterator().forEachRemaining(set::add);
         return set;
     }
+
+    @Override
+    public Recipe findById(Long id) {
+        return recipeRepository.findById(id).orElse(null);
+    }
 }

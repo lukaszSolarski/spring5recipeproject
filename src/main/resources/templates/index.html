@@ -31,27 +31,23 @@
                                 <tr>
                                     <td>ID</td>
                                     <td>name</td>
-                                    <td>directions</td>
-                                    <td>ingredients(amount)</td>
+                                    <td>Show</td>
                                 </tr>
                                 </thead>
                                 <tr th:remove="all">
                                     <td>1</td>
                                     <td>first name</td>
-                                    <td>first directions</td>
-                                    <td>first ingredients</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
                                 <tr th:remove="all">
                                     <td>2</td>
                                     <td>second name</td>
-                                    <td>second directions</td>
-                                    <td>second ingredients</td>
+                                    <td><a href="#">View</a></td>
                                 </tr>
                                 <tr th:each="recipe : ${recipes}">
                                     <td th:text="${recipe.id}"></td>
                                     <td th:text="${recipe.name}"></td>
-                                    <td th:text="${recipe.directions}"></td>
-                                    <td th:text="${recipe.ingredients.size()}"></td>
+                                    <td><a href="#" th:href="@{'recipe/show/' + ${recipe.id}}">View</a></td>
                                 </tr>
                             </table>
                         </div>
