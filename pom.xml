@@ -71,7 +71,9 @@
                         <include>**/*IT.java</include>
                     </includes>
                     <!-- I'm not sure if the above element is necessary -->
-                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${basedir}/target/classes</additionalClasspathElement>
+                    </additionalClasspathElements>
                     <parallel>none</parallel>
                 </configuration>
                 <executions>
