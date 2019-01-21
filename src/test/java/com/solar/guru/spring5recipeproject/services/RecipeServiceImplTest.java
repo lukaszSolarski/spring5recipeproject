@@ -1,5 +1,7 @@
 package com.solar.guru.spring5recipeproject.services;
 
+import com.solar.guru.spring5recipeproject.converters.RecipeCommandToRecipe;
+import com.solar.guru.spring5recipeproject.converters.RecipeToRecipeCommand;
 import com.solar.guru.spring5recipeproject.model.Recipe;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
 import org.junit.Before;
@@ -22,13 +24,19 @@ public class RecipeServiceImplTest {
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    RecipeCommandToRecipe recipeCommandToRecipe;
+
+    @Mock
+    RecipeToRecipeCommand recipeToRecipeCommand;
+
     @Before
     public void setUp() throws Exception {
         /*
         This line initializes fields marked with @Mock annotation
          */
         MockitoAnnotations.initMocks(this);
-        recipeService = new RecipeServiceImpl(recipeRepository);
+        recipeService = new RecipeServiceImpl(recipeRepository, recipeCommandToRecipe, recipeToRecipeCommand);
     }
 
     @Test
