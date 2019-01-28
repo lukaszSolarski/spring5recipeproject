@@ -32,7 +32,7 @@ public class RecipeServiceImplTest {
     RecipeToRecipeCommand recipeToRecipeCommand;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         /*
         This line initializes fields marked with @Mock annotation
          */
@@ -87,5 +87,13 @@ public class RecipeServiceImplTest {
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
         assertEquals(recipeCommand, returnedRecipeCommand);
+    }
+
+    @Test
+    public void deleteById() {
+            Long id = 2L;
+            recipeService.deleteById(id);
+
+            verify(recipeRepository, times(1)).deleteById(anyLong());
     }
 }

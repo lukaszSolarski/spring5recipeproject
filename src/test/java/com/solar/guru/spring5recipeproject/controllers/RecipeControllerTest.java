@@ -42,7 +42,7 @@ public class RecipeControllerTest {
     Recipe recipe;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         MockitoAnnotations.initMocks(this);
         recipeController = new RecipeController(recipeService);
         mockMvc = MockMvcBuilders.standaloneSetup(recipeController).build();
@@ -102,5 +102,13 @@ public class RecipeControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name(expectedFormViewName))
                 .andExpect(model().attributeExists(expectedNameOfAttribute));
+    }
+
+    @Test
+    public void deleteRecipe() throws Exception {
+        mockMvc.perform(get("/recipe/" + recipeId + "/delete"))
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("redirect:/"));
+        verify(recipeService, times(1)).deleteById(anyLong());
     }
 }

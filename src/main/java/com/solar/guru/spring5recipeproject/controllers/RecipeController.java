@@ -4,10 +4,7 @@ import com.solar.guru.spring5recipeproject.commands.RecipeCommand;
 import com.solar.guru.spring5recipeproject.services.RecipeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class RecipeController {
@@ -17,6 +14,7 @@ public class RecipeController {
         this.recipeService = recipeService;
     }
 
+    @GetMapping
     @RequestMapping("/recipe/{id}/show")
     public String showById(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findById(new Long(id)));
@@ -26,6 +24,7 @@ public class RecipeController {
     /*
     It renders view with form where you can add new Recipe.
      */
+    @GetMapping
     @RequestMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
@@ -42,9 +41,17 @@ public class RecipeController {
         return "redirect:/recipe/" + savedRecipe.getId() + "/show";
     }
 
+    @GetMapping
     @RequestMapping("/recipe/{id}/update")
     public String updateRecipe(@PathVariable String id, Model model) {
         model.addAttribute("recipe", recipeService.findCommandById(new Long(id)));
         return "recipe/recipeform";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{id}/delete")
+    public String deleteRecipe(@PathVariable String id) {
+        recipeService.deleteById(new Long(id));
+        return "redirect:/";
     }
 }
