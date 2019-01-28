@@ -23,6 +23,9 @@ public class RecipeController {
         return "recipe/show";
     }
 
+    /*
+    It renders view with form where you can add new Recipe.
+     */
     @RequestMapping("recipe/new")
     public String newRecipe(Model model) {
         model.addAttribute("recipe", new RecipeCommand());
@@ -30,6 +33,9 @@ public class RecipeController {
         //TODO create tests
     }
 
+    /*
+    It handles POST request, adds new recipe and redirects to recipe/show
+     */
     @PostMapping
     @RequestMapping("recipe")
     public String saveOrUpdate(@ModelAttribute RecipeCommand command) {
