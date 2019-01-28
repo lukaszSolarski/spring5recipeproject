@@ -22,6 +22,7 @@
     <div class="row">
         <div class="col-md-6 col-md-offset-3">
             <form th:object="${recipe}" th:action="@{/recipe/}">
+                <input type="hidden" th:field="*{id}"/>
                 <div class="panel-group">
                     <div class="panel panel-primary">
                         <div class="panel-heading">
@@ -97,7 +98,7 @@
                                         <li th:remove="all">ingredient 1</li>
                                         <li th:remove="all">ingredient 2</li>
                                         <li th:each="ingredient : ${recipe.ingredients}"
-                                            th:text="${(ingredient.amount + ' ' + ingredient.unitOfMeasure.description +
+                                            th:text="${(ingredient.amount + ' ' + ingredient.unitOfMeasure.description
                                              + ' ' + ingredient.description)}">ingredient 3</li>
                                     </ul>
                                 </div>

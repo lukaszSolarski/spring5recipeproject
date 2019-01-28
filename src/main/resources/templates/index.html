@@ -32,27 +32,31 @@
                                     <td>ID</td>
                                     <td>name</td>
                                     <td>Show</td>
+                                    <td>Update</td>
                                 </tr>
                                 </thead>
                                 <tr th:remove="all">
                                     <td>1</td>
                                     <td>first name</td>
                                     <td><a href="#">View</a></td>
+                                    <td><a href="#">Update</a></td>
                                 </tr>
                                 <tr th:remove="all">
                                     <td>2</td>
                                     <td>second name</td>
                                     <td><a href="#">View</a></td>
+                                    <td><a href="#">Update</a></td>
+
                                 </tr>
                                 <tr th:each="recipe : ${recipes}">
                                     <td th:text="${recipe.id}"></td>
                                     <td th:text="${recipe.name}"></td>
-                                    <td><a href="#" th:href="@{'recipe/show/' + ${recipe.id}}">View</a></td>
+                                    <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/show'}">View</a></td>
+                                    <td><a href="#" th:href="@{'recipe/' + ${recipe.id} + '/update'}">Update</a></td>
                                 </tr>
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>

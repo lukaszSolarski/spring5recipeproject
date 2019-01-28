@@ -1,5 +1,6 @@
 package com.solar.guru.spring5recipeproject.services;
 
+import com.solar.guru.spring5recipeproject.commands.RecipeCommand;
 import com.solar.guru.spring5recipeproject.converters.RecipeCommandToRecipe;
 import com.solar.guru.spring5recipeproject.converters.RecipeToRecipeCommand;
 import com.solar.guru.spring5recipeproject.model.Recipe;
@@ -45,7 +46,7 @@ public class RecipeServiceImplTest {
         recipesData.add(new Recipe());
 
         /*
-        The above commented line isn't good. The recipeRepository was mocked so this recipeRepository should has been
+        The below commented line isn't good. The recipeRepository was mocked so this recipeRepository should has been
         used in this expression (not recipeService).
          */
         //when(recipeService.getRecipes()).thenReturn(recipesData);
@@ -59,16 +60,32 @@ public class RecipeServiceImplTest {
 
     @Test
     public void findById() {
-        Long l = 1L;
+        Long id = 1L;
         Recipe recipe = new Recipe();
-        recipe.setId(l);
+        recipe.setId(id);
         Optional<Recipe> optionalRecipe = Optional.of(recipe);
 
         when(recipeRepository.findById(anyLong())).thenReturn(optionalRecipe);
-        Recipe returnedRecipe = recipeService.findById(l);
+        Recipe returnedRecipe = recipeService.findById(id);
+
         assertNotNull("Null recipe returned", returnedRecipe);
         verify(recipeRepository, times(1)).findById(anyLong());
         verify(recipeRepository, never()).findAll();
         assertEquals(recipe, returnedRecipe);
+    }
+
+    @Test
+    public void findCommandById() {
+        RecipeCommand recipeCommand = new RecipeCommand();
+        Long id = 1L;
+        recipeCommand.setId(id);
+
+        when(recipeToRecipeCommand.convert(any())).thenReturn(recipeCommand);
+        RecipeCommand returnedRecipeCommand = recipeService.findCommandById(id);
+
+        assertNotNull("Null recipe command returned", returnedRecipeCommand);
+        verify(recipeRepository, times(1)).findById(anyLong());
+        verify(recipeRepository, never()).findAll();
+        assertEquals(recipeCommand, returnedRecipeCommand);
     }
 }
