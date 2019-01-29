@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Ingredients list</title>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css"
+          integrity="sha384-PmY9l28YgO4JwMKbTvgaS7XNZJ30MK9FAZjjzXtlqyZCqBY6X6bXIkM++IkyinN+"
+          crossorigin="anonymous"
+          th:href="@{/webjars/bootstrap/3.4.0/css/bootstrap.min.css}">
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"
+            integrity="sha384-vhJnz1OVIdLktyixHY4Uk3OHEwdQqPppqYR8+5mjsauETgLOcEynD9oPHhhz18Nw"
+            crossorigin="anonymous"
+            th:src="@{/webjars/bootstrap/3.4.0/js/bootstrap.min.js}"></script>
+    <script src="webjars/jquery/1.11.1/jquery.min.js"></script>
+</head>
+<body>
+<div class="container-fluid" style="margin-top: 20px">
+    <div class="row">
+        <div class="col-md-5 col-md-offset-3">
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h1 class="panel-title">List of ingredients!</h1>
+                </div>
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead class="thead-inverse">
+                            <tr>
+                                <td>ID</td>
+                                <td>description</td>
+                                <td>Show</td>
+                                <td>Update</td>
+                                <td>Delete</td>
+                            </tr>
+                            </thead>
+                            <tr th:remove="all">
+                                <td>1</td>
+                                <td>first description</td>
+                                <td><a href="#">View</a></td>
+                                <td><a href="#">Update</a></td>
+                                <td><a href="#">Delete</a></td>
+                            </tr>
+                            <tr th:remove="all">
+                                <td>2</td>
+                                <td>second description</td>
+                                <td><a href="#">View</a></td>
+                                <td><a href="#">Update</a></td>
+                                <td><a href="#">Delete</a></td>
+                            </tr>
+                            <tr th:each="ingredient : ${recipe.ingredients}">
+                                <td th:text="${ingredient.id}"></td>
+                                <td th:text="${ingredient.description}"></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="table-responsive">
+                        <a href="ingredient/new">Add</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
