@@ -1,6 +1,8 @@
 package com.solar.guru.spring5recipeproject.controllers;
 
+import com.solar.guru.spring5recipeproject.commands.IngredientCommand;
 import com.solar.guru.spring5recipeproject.commands.RecipeCommand;
+import com.solar.guru.spring5recipeproject.services.IngredientService;
 import com.solar.guru.spring5recipeproject.services.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,21 +25,27 @@ public class IngredientControllerTest {
 
     @Mock
     RecipeService recipeService;
+
+    @Mock
+    IngredientService ingredientService;
+
     IngredientController ingredientController;
     MockMvc mockMvc;
+    RecipeCommand recipeCommand;
+    final Long id = 1L;
+
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientController = new IngredientController(recipeService);
+        ingredientController = new IngredientController(recipeService,ingredientService);
         mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
+        recipeCommand = new RecipeCommand();
+        recipeCommand.setId(id);
     }
 
     @Test
     public void showListOfIngredients() throws Exception {
-        RecipeCommand recipeCommand = new RecipeCommand();
-        Long id = 1L;
-        recipeCommand.setId(id);
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
 
         mockMvc.perform(get("/recipe/" + id + "/ingredient/list"))
@@ -46,5 +54,18 @@ public class IngredientControllerTest {
                 .andExpect(model().attributeExists("recipe"));
 
         verify(recipeService, times(1)).findCommandById(anyLong());
+    }
+
+    @Test
+    public void showIngredient() throws Exception{
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setId(id);
+        when(ingredientService.findByRecipeIdAndIngredientId(anyLong(), anyLong())).thenReturn(ingredientCommand);
+
+        mockMvc.perform(get("/recipe/" + id + "/ingredient/1/show"))
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/ingredient/show"))
+                .andExpect(model().attributeExists("ingredient"));
+        verify(ingredientService, times(1)).findByRecipeIdAndIngredientId(anyLong(), anyLong());
     }
 }
