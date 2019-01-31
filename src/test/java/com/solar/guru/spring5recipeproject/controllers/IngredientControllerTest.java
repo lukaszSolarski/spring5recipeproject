@@ -4,6 +4,7 @@ import com.solar.guru.spring5recipeproject.commands.IngredientCommand;
 import com.solar.guru.spring5recipeproject.commands.RecipeCommand;
 import com.solar.guru.spring5recipeproject.services.IngredientService;
 import com.solar.guru.spring5recipeproject.services.RecipeService;
+import com.solar.guru.spring5recipeproject.services.UnitOfMeasureService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -29,6 +30,9 @@ public class IngredientControllerTest {
     @Mock
     IngredientService ingredientService;
 
+    @Mock
+    UnitOfMeasureService unitOfMeasureService;
+
     IngredientController ingredientController;
     MockMvc mockMvc;
     RecipeCommand recipeCommand;
@@ -38,7 +42,7 @@ public class IngredientControllerTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientController = new IngredientController(recipeService,ingredientService);
+        ingredientController = new IngredientController(recipeService, ingredientService, unitOfMeasureService);
         mockMvc = MockMvcBuilders.standaloneSetup(ingredientController).build();
         recipeCommand = new RecipeCommand();
         recipeCommand.setId(id);

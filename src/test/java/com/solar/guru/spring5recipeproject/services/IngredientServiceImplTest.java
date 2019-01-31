@@ -1,11 +1,14 @@
 package com.solar.guru.spring5recipeproject.services;
 
 import com.solar.guru.spring5recipeproject.commands.IngredientCommand;
+import com.solar.guru.spring5recipeproject.converters.IngredientCommandToIngredient;
 import com.solar.guru.spring5recipeproject.converters.IngredientToIngredientCommand;
+import com.solar.guru.spring5recipeproject.converters.UnitOfMeasureCommandToUnitOfMeasure;
 import com.solar.guru.spring5recipeproject.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.solar.guru.spring5recipeproject.model.Ingredient;
 import com.solar.guru.spring5recipeproject.model.Recipe;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
+import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -21,21 +24,26 @@ import static org.mockito.Mockito.when;
 
 public class IngredientServiceImplTest {
 
-    private final IngredientToIngredientCommand converter;
+    private final IngredientToIngredientCommand ingredientToIngredientCommand;
+    private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
     IngredientServiceImpl ingredientService;
 
     @Mock
     RecipeRepository recipeRepository;
 
+    @Mock
+    UnitOfMeasureRepository unitOfMeasureRepository;
+
     public IngredientServiceImplTest() {
-        this.converter = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        this.ingredientToIngredientCommand = new IngredientToIngredientCommand(new UnitOfMeasureToUnitOfMeasureCommand());
+        this.ingredientCommandToIngredient = new IngredientCommandToIngredient(new UnitOfMeasureCommandToUnitOfMeasure());
     }
 
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientService = new IngredientServiceImpl(recipeRepository, converter);
+        ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository, ingredientToIngredientCommand, ingredientCommandToIngredient);
     }
 
     @Test
@@ -65,5 +73,10 @@ public class IngredientServiceImplTest {
         verify(recipeRepository, times(1)).findById(anyLong());
         assertEquals(ingredientId, ingredientCommand.getId());
         assertEquals(recipeId, ingredientCommand.getRecipeId());
+    }
+
+    @Test
+    public void saveIngredientCommand() {
+        //TODO
     }
 }
