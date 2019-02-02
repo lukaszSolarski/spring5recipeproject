@@ -7,6 +7,7 @@ import com.solar.guru.spring5recipeproject.converters.UnitOfMeasureCommandToUnit
 import com.solar.guru.spring5recipeproject.converters.UnitOfMeasureToUnitOfMeasureCommand;
 import com.solar.guru.spring5recipeproject.model.Ingredient;
 import com.solar.guru.spring5recipeproject.model.Recipe;
+import com.solar.guru.spring5recipeproject.model.UnitOfMeasure;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
 import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.mockito.MockitoAnnotations;
 import java.util.Optional;
 
 import static org.junit.Assert.*;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -76,7 +78,59 @@ public class IngredientServiceImplTest {
     }
 
     @Test
-    public void saveIngredientCommand() {
-        //TODO
+    public void saveNewIngredientCommand() {
+        Long recipeId = 1L;
+        Long newIngredientId = 3L;
+
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setId(1L);
+        uom.setDescription("description");
+
+        Ingredient newIngredient = new Ingredient();
+        newIngredient.setId(newIngredientId);
+        newIngredient.setUnitOfMeasure(uom);
+
+        Recipe recipe = new Recipe();
+        recipe.setId(recipeId);
+
+        newIngredient.setRecipe(recipe);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+        when(unitOfMeasureRepository.findById(anyLong())).thenReturn(Optional.of(uom));
+        when(recipeRepository.save(any())).thenReturn(recipe);
+
+        IngredientCommand newIngredientCommand = ingredientService.saveIngredientCommand(
+                ingredientToIngredientCommand.convert(newIngredient)
+        );
+
+        assertEquals(newIngredientId, newIngredientCommand.getId());
+    }
+
+    @Test
+    public void saveExistingIngredientCommand() {
+        Long recipeId = 1L;
+        Long existingIngredientId = 2L;
+
+        UnitOfMeasure uom = new UnitOfMeasure();
+        uom.setId(1L);
+        uom.setDescription("description");
+
+        Ingredient existingIngredient = new Ingredient();
+        existingIngredient.setId(existingIngredientId);
+        existingIngredient.setUnitOfMeasure(uom);
+
+        Recipe recipe = new Recipe();
+        recipe.setId(recipeId);
+        recipe.addIngredient(existingIngredient);
+
+        when(recipeRepository.findById(anyLong())).thenReturn(Optional.of(recipe));
+        when(unitOfMeasureRepository.findById(anyLong())).thenReturn(Optional.of(uom));
+        when(recipeRepository.save(any())).thenReturn(recipe);
+
+        IngredientCommand existingIngredientCommand = ingredientService.saveIngredientCommand(
+                ingredientToIngredientCommand.convert(existingIngredient)
+        );
+
+        assertEquals(existingIngredientId, existingIngredientCommand.getId());
     }
 }
