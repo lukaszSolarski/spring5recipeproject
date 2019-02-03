@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Slf4j
@@ -50,31 +51,48 @@ public class IngredientServiceImpl implements IngredientService {
     public IngredientCommand saveIngredientCommand(IngredientCommand ingredientCommand) {
         Recipe recipe = recipeRepository.findById(ingredientCommand.getRecipeId())
                 .orElseThrow(() -> new RuntimeException("Couldn't find recipe!"));
+        //ingredient is new if it doesn't have id
+        if (ingredientCommand.getId() == null) {
+            recipe.addIngredient(ingredientCommandToIngredient.convert(ingredientCommand));
 
-        Optional<Ingredient> ingredientOptional= recipe.getIngredients()
+        }
+        else {
+            Optional<Ingredient> ingredientOptional= recipe.getIngredients()
                     .stream()
                     .filter(ingredient -> ingredient.getId().equals(ingredientCommand.getId()))
                     .findFirst();
-        if (ingredientOptional.isPresent()) {
-            //update existing ingredient
-            Ingredient foundIngredient = ingredientOptional.get();
-            foundIngredient.setAmount(ingredientCommand.getAmount());
-            foundIngredient.setDescription(ingredientCommand.getDescription());
-            foundIngredient.setUnitOfMeasure(
-                    unitOfMeasureRepository
-                            .findById(ingredientCommand.getUnitOfMeasure().getId())
-                            .orElseThrow(() -> new RuntimeException("Couldn't find uom!")));
-        }
-        else {
-            //add new ingredient
-            recipe.addIngredient(ingredientCommandToIngredient.convert(ingredientCommand));
+            if (ingredientOptional.isPresent()) {
+                //update existing ingredient
+                Ingredient foundIngredient = ingredientOptional.get();
+                foundIngredient.setAmount(ingredientCommand.getAmount());
+                foundIngredient.setDescription(ingredientCommand.getDescription());
+                foundIngredient.setUnitOfMeasure(
+                        unitOfMeasureRepository
+                                .findById(ingredientCommand.getUnitOfMeasure().getId())
+                                .orElseThrow(() -> new RuntimeException("Couldn't find uom!")));
+            }
+            else {
+                //add new ingredient
+                Ingredient ingredient = ingredientCommandToIngredient.convert(ingredientCommand);
+                recipe.addIngredient(ingredient);
+            }
         }
         //in both cases, save recipe
         Recipe savedRecipe = recipeRepository.save(recipe);
-        Ingredient savedIngredient = savedRecipe.getIngredients().stream()
-                .filter(ingredients -> ingredients.getId().equals(ingredientCommand.getId()))
-                .findFirst()
-                .orElseThrow(() -> new RuntimeException("Couldn't find ingredient after saving recipe!"));
+        Ingredient savedIngredient;
+        Set<Ingredient> listOfIngredients = savedRecipe.getIngredients();
+        if (ingredientCommand.getId() == null) {
+            savedIngredient = savedRecipe.getIngredients().stream()
+                    .filter(ingredient -> ingredientCommand.equals(ingredientToIngredientCommand.convert(ingredient)))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Problem with finding new ingredient"));
+        }
+        else {
+            savedIngredient = savedRecipe.getIngredients().stream()
+                    .filter(ingredients -> ingredients.getId().equals(ingredientCommand.getId()))
+                    .findFirst()
+                    .orElseThrow(() -> new RuntimeException("Couldn't find ingredient after saving recipe!"));
+        }
         return ingredientToIngredientCommand.convert(savedIngredient);
     }
 }

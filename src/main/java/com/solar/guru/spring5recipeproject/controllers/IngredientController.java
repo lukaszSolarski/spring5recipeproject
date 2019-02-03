@@ -1,12 +1,15 @@
 package com.solar.guru.spring5recipeproject.controllers;
 
 import com.solar.guru.spring5recipeproject.commands.IngredientCommand;
+import com.solar.guru.spring5recipeproject.commands.UnitOfMeasureCommand;
 import com.solar.guru.spring5recipeproject.services.IngredientService;
 import com.solar.guru.spring5recipeproject.services.RecipeService;
 import com.solar.guru.spring5recipeproject.services.UnitOfMeasureService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Set;
 
 @Controller
 public class IngredientController {
@@ -50,5 +53,17 @@ public class IngredientController {
     public String saveOrUpdateIngredient(@ModelAttribute IngredientCommand ingredientCommand) {
         IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
         return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() + "/ingredient/" + savedIngredientCommand.getId() + "/show";
+    }
+
+    @GetMapping
+    @RequestMapping("recipe/{recipeId}/ingredient/new")
+    public String newIngredient(@PathVariable String recipeId, Model model) {
+        Set<UnitOfMeasureCommand> uomList = unitOfMeasureService.findAll();
+        IngredientCommand ingredientCommand = new IngredientCommand();
+        ingredientCommand.setRecipeId(new Long(recipeId));
+        ingredientCommand.setUnitOfMeasure(uomList.stream().findFirst().get());
+        model.addAttribute("ingredient", ingredientCommand);
+        model.addAttribute("uomList", uomList);
+        return "recipe/ingredient/ingredientform";
     }
 }

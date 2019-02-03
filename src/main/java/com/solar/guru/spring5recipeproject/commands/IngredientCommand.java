@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -15,4 +16,15 @@ public class IngredientCommand {
     private String description;
     private BigDecimal amount;
     private UnitOfMeasureCommand unitOfMeasure;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        IngredientCommand that = (IngredientCommand) o;
+        return Objects.equals(recipeId, that.recipeId) &&
+                Objects.equals(description, that.description) &&
+                Objects.equals(amount, that.amount) &&
+                Objects.equals(unitOfMeasure.getId(), that.unitOfMeasure.getId());
+    }
 }

@@ -98,8 +98,9 @@
                                         <li th:remove="all">ingredient 1</li>
                                         <li th:remove="all">ingredient 2</li>
                                         <li th:each="ingredient : ${recipe.ingredients}"
-                                            th:text="${(ingredient.amount + ' ' + ingredient.unitOfMeasure.description
-                                             + ' ' + ingredient.description)}">ingredient 3</li>
+                                            th:text="${(ingredient.description + ', amount: ' + ingredient.amount + ' ' +
+                                            ingredient.unitOfMeasure.description
+                                             )}">ingredient 3</li>
                                     </ul>
                                 </div>
                             </div>
