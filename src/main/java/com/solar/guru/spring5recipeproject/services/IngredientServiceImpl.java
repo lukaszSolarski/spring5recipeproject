@@ -80,19 +80,11 @@ public class IngredientServiceImpl implements IngredientService {
         //in both cases, save recipe
         Recipe savedRecipe = recipeRepository.save(recipe);
         Ingredient savedIngredient;
-        Set<Ingredient> listOfIngredients = savedRecipe.getIngredients();
-        if (ingredientCommand.getId() == null) {
-            savedIngredient = savedRecipe.getIngredients().stream()
-                    .filter(ingredient -> ingredientCommand.equals(ingredientToIngredientCommand.convert(ingredient)))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Problem with finding new ingredient"));
-        }
-        else {
-            savedIngredient = savedRecipe.getIngredients().stream()
-                    .filter(ingredients -> ingredients.getId().equals(ingredientCommand.getId()))
-                    .findFirst()
-                    .orElseThrow(() -> new RuntimeException("Couldn't find ingredient after saving recipe!"));
-        }
+        // use IngredientCommand's equals() method to find recently added/updated ingredient
+        savedIngredient = savedRecipe.getIngredients().stream()
+                .filter(ingredient -> ingredientCommand.equals(ingredientToIngredientCommand.convert(ingredient)))
+                .findFirst()
+                .orElseThrow(() -> new RuntimeException("Problem with finding new ingredient"));
         return ingredientToIngredientCommand.convert(savedIngredient);
     }
 }

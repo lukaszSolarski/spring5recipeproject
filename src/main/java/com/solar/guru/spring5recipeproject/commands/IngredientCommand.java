@@ -22,6 +22,7 @@ public class IngredientCommand {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         IngredientCommand that = (IngredientCommand) o;
+        // ignore the id during comparing the objects
         return Objects.equals(recipeId, that.recipeId) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(amount, that.amount) &&
