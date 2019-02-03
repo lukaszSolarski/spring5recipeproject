@@ -22,7 +22,7 @@
         <div class="col-md-5 col-md-offset-3">
             <div class="panel panel-primary">
                 <div class="panel-heading">
-                    <h1 class="panel-title">List of ingredients!</h1>
+                    <h1 class="panel-title" th:text="${recipe.name} + ' - ingredients'">List of ingredients!</h1>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
@@ -31,6 +31,8 @@
                             <tr>
                                 <td>ID</td>
                                 <td>description</td>
+                                <td>amount</td>
+                                <td>unit</td>
                                 <td>Show</td>
                                 <td>Update</td>
                                 <td>Delete</td>
@@ -39,6 +41,8 @@
                             <tr th:remove="all">
                                 <td>1</td>
                                 <td>first description</td>
+                                <td>1</td>
+                                <td>some unit</td>
                                 <td><a href="#">View</a></td>
                                 <td><a href="#">Update</a></td>
                                 <td><a href="#">Delete</a></td>
@@ -46,6 +50,8 @@
                             <tr th:remove="all">
                                 <td>2</td>
                                 <td>second description</td>
+                                <td>3</td>
+                                <td>some next unit</td>
                                 <td><a href="#">View</a></td>
                                 <td><a href="#">Update</a></td>
                                 <td><a href="#">Delete</a></td>
@@ -53,6 +59,8 @@
                             <tr th:each="ingredient : ${recipe.ingredients}">
                                 <td th:text="${ingredient.id}"></td>
                                 <td th:text="${ingredient.description}"></td>
+                                <td th:text="${ingredient.amount}"></td>
+                                <td th:text="${ingredient.unitOfMeasure.description}"></td>
                                 <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
                                 <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
                                 <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
