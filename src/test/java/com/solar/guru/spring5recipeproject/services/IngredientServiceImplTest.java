@@ -8,6 +8,7 @@ import com.solar.guru.spring5recipeproject.converters.UnitOfMeasureToUnitOfMeasu
 import com.solar.guru.spring5recipeproject.model.Ingredient;
 import com.solar.guru.spring5recipeproject.model.Recipe;
 import com.solar.guru.spring5recipeproject.model.UnitOfMeasure;
+import com.solar.guru.spring5recipeproject.repositories.IngredientRepository;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
 import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
 import org.junit.Before;
@@ -35,6 +36,9 @@ public class IngredientServiceImplTest {
     RecipeRepository recipeRepository;
 
     @Mock
+    IngredientRepository ingredientRepository;
+
+    @Mock
     UnitOfMeasureRepository unitOfMeasureRepository;
 
     public IngredientServiceImplTest() {
@@ -45,7 +49,7 @@ public class IngredientServiceImplTest {
     @Before
     public void setUp() {
         MockitoAnnotations.initMocks(this);
-        ingredientService = new IngredientServiceImpl(recipeRepository, unitOfMeasureRepository, ingredientToIngredientCommand, ingredientCommandToIngredient);
+        ingredientService = new IngredientServiceImpl(recipeRepository, ingredientRepository, unitOfMeasureRepository, ingredientToIngredientCommand, ingredientCommandToIngredient);
     }
 
     @Test

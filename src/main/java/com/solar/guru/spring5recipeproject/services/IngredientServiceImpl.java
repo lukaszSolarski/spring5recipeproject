@@ -5,6 +5,7 @@ import com.solar.guru.spring5recipeproject.converters.IngredientCommandToIngredi
 import com.solar.guru.spring5recipeproject.converters.IngredientToIngredientCommand;
 import com.solar.guru.spring5recipeproject.model.Ingredient;
 import com.solar.guru.spring5recipeproject.model.Recipe;
+import com.solar.guru.spring5recipeproject.repositories.IngredientRepository;
 import com.solar.guru.spring5recipeproject.repositories.RecipeRepository;
 import com.solar.guru.spring5recipeproject.repositories.UnitOfMeasureRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -12,21 +13,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import java.util.Set;
 
 @Service
 @Slf4j
 public class IngredientServiceImpl implements IngredientService {
 
     private final RecipeRepository recipeRepository;
+    private final IngredientRepository ingredientRepository;
     private final UnitOfMeasureRepository unitOfMeasureRepository;
     private final IngredientToIngredientCommand ingredientToIngredientCommand;
     private final IngredientCommandToIngredient ingredientCommandToIngredient;
 
-    public IngredientServiceImpl(RecipeRepository recipeRepository, UnitOfMeasureRepository unitOfMeasureRepository,
+    public IngredientServiceImpl(RecipeRepository recipeRepository, IngredientRepository ingredientRepository,
+                                 UnitOfMeasureRepository unitOfMeasureRepository,
                                  IngredientToIngredientCommand ingredientToIngredientCommand,
                                  IngredientCommandToIngredient ingredientCommandToIngredient) {
         this.recipeRepository = recipeRepository;
+        this.ingredientRepository = ingredientRepository;
         this.unitOfMeasureRepository = unitOfMeasureRepository;
         this.ingredientToIngredientCommand = ingredientToIngredientCommand;
         this.ingredientCommandToIngredient = ingredientCommandToIngredient;
@@ -86,5 +89,11 @@ public class IngredientServiceImpl implements IngredientService {
                 .findFirst()
                 .orElseThrow(() -> new RuntimeException("Problem with finding new ingredient"));
         return ingredientToIngredientCommand.convert(savedIngredient);
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        log.debug("Deleting ingredient with id=" + id);
+        ingredientRepository.deleteById(id);
     }
 }

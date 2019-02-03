@@ -53,14 +53,14 @@
                             <tr th:each="ingredient : ${recipe.ingredients}">
                                 <td th:text="${ingredient.id}"></td>
                                 <td th:text="${ingredient.description}"></td>
-                                <td><a href="#" th:href="@{${ingredient.id} + '/show'}">View</a></td>
-                                <td><a href="#" th:href="@{${ingredient.id} + '/update'}">Update</a></td>
-                                <td><a href="#" th:href="@{${ingredient.id} + '/delete'}">Delete</a></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/show'}">View</a></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/update'}">Update</a></td>
+                                <td><a href="#" th:href="@{'ingredient/' + ${ingredient.id} + '/delete'}">Delete</a></td>
                             </tr>
                         </table>
                     </div>
                     <div class="table-responsive">
-                        <a href="new">Add</a>
+                        <a href="ingredient/new">Add</a>
                     </div>
                 </div>
             </div>

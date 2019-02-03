@@ -60,7 +60,7 @@ public class IngredientControllerTest {
     public void showListOfIngredients() throws Exception {
         when(recipeService.findCommandById(anyLong())).thenReturn(recipeCommand);
 
-        mockMvc.perform(get("/recipe/" + INGREDIENT_ID + "/ingredient/list"))
+        mockMvc.perform(get("/recipe/" + INGREDIENT_ID + "/ingredients"))
                 .andExpect(status().isOk())
                 .andExpect(view().name("recipe/ingredient/list"))
                 .andExpect(model().attributeExists("recipe"));
@@ -109,8 +109,8 @@ public class IngredientControllerTest {
                 .param("description", "some description")
         )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/recipe/"
-                        + ingredientCommand.getRecipeId() + "/ingredient/" + ingredientCommand.getId() + "/show"));
+                .andExpect(view().name("redirect:/recipe/" + ingredientCommand.getRecipeId()
+                        + "/ingredients"));
     }
 
     @Test
@@ -137,8 +137,8 @@ public class IngredientControllerTest {
                 .param("description", ingredientCommand.getDescription())
         )
                 .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/recipe/"
-                + savedIngredient.getRecipeId() + "/ingredient/" + savedIngredient.getId() + "/show"));
+                .andExpect(view().name("redirect:/recipe/" + savedIngredient.getRecipeId()
+                        + "/ingredients"));
     }
 
     @Test
@@ -153,5 +153,13 @@ public class IngredientControllerTest {
                 .andExpect(view().name("recipe/ingredient/ingredientform"))
                 .andExpect(model().attributeExists("ingredient"))
                 .andExpect(model().attributeExists("uomList"));
+    }
+
+    @Test
+    public void deleteIngredient() throws Exception {
+        mockMvc.perform(get("/recipe/1/ingredient/1/delete"))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name("redirect:/recipe/1/ingredients"));
+        verify(ingredientService, times(1)).deleteById(anyLong());
     }
 }
